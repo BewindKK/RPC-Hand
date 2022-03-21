@@ -11,7 +11,7 @@ public class Response {
      * 服务返回编码
      * 0-成功，非0失败
      */
-    private int code;
+    private int code=0;
     //错误消息
     private String message="ok";
     //返回的数据

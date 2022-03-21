@@ -1,6 +1,5 @@
 package com.bewind.rpc.utils;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -21,7 +20,7 @@ public class ReflectionUtils {
         try {
             return clazz.newInstance();
         } catch (Exception e) {
-            throw new IllegalStateException();
+            throw new IllegalStateException(e);
         }
     }
 
@@ -30,12 +29,13 @@ public class ReflectionUtils {
      * @param clazz
      * @return
      */
-    public static Method[] getPublicMethods(Class clazz){
-        Method[] methods= clazz.getDeclaredMethods();//返回当前类的所有方法
-        List<Method> pMethods=new ArrayList<>();
-        for (Method m:methods){
-            if(Modifier.isPublic(m.getModifiers())){
-                pMethods.add(m);
+    public static Method[] getPublicMethods(Class clazz) {
+        Method[] methods = clazz.getDeclaredMethods();
+        List<Method> pMethods = new ArrayList<Method>();
+        //过滤出公共方法
+        for (Method method : methods) {
+            if (Modifier.isPublic(method.getModifiers())) {
+                pMethods.add(method);
             }
         }
         return pMethods.toArray(new Method[0]);
@@ -48,10 +48,10 @@ public class ReflectionUtils {
      * @param args 方法的参数
      * @return  返回结果
      */
-    public static Object invoke(Object obj,Method method,Object... args){
+    public static Object invoke(Object obj, Method method, Object... args) {
         try {
-            return method.invoke(obj,args);
-        } catch (Exception e) {
+            return method.invoke(obj, args);
+        }  catch (Exception e) {
             throw new IllegalStateException(e);
         }
     }
